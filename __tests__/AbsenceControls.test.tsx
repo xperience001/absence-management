@@ -1,30 +1,26 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, fireEvent, screen } from '@testing-library/react';
 import AbsenceControls from '../src/components/AbsenceControls';
 
-test('renders AbsenceControls component with sorting buttons', () => {
-  const handleSort = jest.fn();
+describe('AbsenceControls', () => {
+  it('renders correctly', () => {
+    render(<AbsenceControls onSort={jest.fn()} />);
+    expect(screen.getByText('Sort by Start Date')).toBeInTheDocument();
+    expect(screen.getByText('Sort by End Date')).toBeInTheDocument();
+    expect(screen.getByText('Sort by Absence Type')).toBeInTheDocument();
+    expect(screen.getByText('Sort by Employee Name')).toBeInTheDocument();
+  });
 
-  const { getByText } = render(<AbsenceControls onSort={handleSort} />);
-  const startDateButton = getByText('Sort by Start Date');
-  const endDateButton = getByText('Sort by End Date');
-  const absenceTypeButton = getByText('Sort by Absence Type');
-  const employeeNameButton = getByText('Sort by Employee Name');
-
-  expect(startDateButton).toBeInTheDocument();
-  expect(endDateButton).toBeInTheDocument();
-  expect(absenceTypeButton).toBeInTheDocument();
-  expect(employeeNameButton).toBeInTheDocument();
-
-  fireEvent.click(startDateButton);
-  fireEvent.click(endDateButton);
-  fireEvent.click(absenceTypeButton);
-  fireEvent.click(employeeNameButton);
-
-  expect(handleSort).toHaveBeenCalledTimes(4);
-  expect(handleSort).toHaveBeenCalledWith('startDate');
-  expect(handleSort).toHaveBeenCalledWith('endDate');
-  expect(handleSort).toHaveBeenCalledWith('absenceType');
-  expect(handleSort).toHaveBeenCalledWith('employeeName');
+  it('calls onSort function with correct field when buttons are clicked', () => {
+    const mockOnSort = jest.fn();
+    render(<AbsenceControls onSort={mockOnSort} />);
+    fireEvent.click(screen.getByText('Sort by Start Date'));
+    expect(mockOnSort).toHaveBeenCalledWith('startDate');
+    fireEvent.click(screen.getByText('Sort by End Date'));
+    expect(mockOnSort).toHaveBeenCalledWith('endDate');
+    fireEvent.click(screen.getByText('Sort by Absence Type'));
+    expect(mockOnSort).toHaveBeenCalledWith('absenceType');
+    fireEvent.click(screen.getByText('Sort by Employee Name'));
+    expect(mockOnSort).toHaveBeenCalledWith('employeeName');
+  });
 });

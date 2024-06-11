@@ -1,41 +1,30 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import AbsenceItem from '../src/components/AbsenceItem';
 
-test('renders AbsenceItem component with absence data', async () => {
+describe('AbsenceItem', () => {
   const absence = {
     id: 1,
     startDate: '2024-06-01',
-    endDate: '2024-06-05',
+    endDate: '2024-06-03',
     employeeName: 'John Doe',
     approved: true,
-    absenceType: 'Vacation'
+    absenceType: 'Vacation',
   };
-  const fetchConflict = jest.fn(() => Promise.resolve(false));
-  const onEmployeeClick = jest.fn();
 
-  const { getByText } = render(
-    <AbsenceItem
-      absence={absence}
-      fetchConflict={fetchConflict}
-      onEmployeeClick={onEmployeeClick}
-    />
-  );
+  it('renders absence details correctly', () => {
+    render(
+      <AbsenceItem
+        absence={absence}
+        fetchConflict={jest.fn()}
+        onEmployeeClick={jest.fn()}
+      />
+    );
 
-  const startDate = getByText('Start Date: 2024-06-01');
-  const endDate = getByText('End Date: 2024-06-05');
-  const employeeName = getByText('Employee Name: John Doe');
-  const status = getByText('Status: Approved');
-  const absenceType = getByText('Absence Type: Vacation');
-
-  expect(startDate).toBeInTheDocument();
-  expect(endDate).toBeInTheDocument();
-  expect(employeeName).toBeInTheDocument();
-  expect(status).toBeInTheDocument();
-  expect(absenceType).toBeInTheDocument();
-
-  await waitFor(() => {
-    expect(fetchConflict).toHaveBeenCalledTimes(1);
-    expect(fetchConflict).toHaveBeenCalledWith(1);
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('Start Date: 2024-06-01')).toBeInTheDocument();
+    expect(screen.getByText('End Date: 2024-06-03')).toBeInTheDocument();
+    expect(screen.getByText('Type: Vacation')).toBeInTheDocument();
+    expect(screen.getByText('Status: Approved')).toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
+// components/AbsenceList.tsx
 import React from 'react';
-import AbsenceItem from './AbsenceItem';
 
 interface Absence {
   id: number;
@@ -12,8 +12,9 @@ interface Absence {
 
 interface AbsenceListProps {
   absences: Absence[];
-  fetchConflict: (id: number) => Promise<boolean>; // Corrected type definition
-  onEmployeeClick: (employeeName: string) => void; // Corrected type definition
+  fetchConflict: (id: number) => Promise<boolean>;
+  onEmployeeClick: (employeeName: string) => void;
+  onAbsenceClick: (absence: Absence) => void;
   sortedBy: string | null;
   sortedAsc: boolean;
   sortFunction: (a: Absence, b: Absence) => number;
@@ -21,8 +22,9 @@ interface AbsenceListProps {
 
 const AbsenceList: React.FC<AbsenceListProps> = ({
   absences,
-  fetchConflict, // Corrected prop name
-  onEmployeeClick, // Corrected prop name
+  fetchConflict,
+  onEmployeeClick,
+  onAbsenceClick,
   sortedBy,
   sortedAsc,
   sortFunction,
@@ -30,12 +32,13 @@ const AbsenceList: React.FC<AbsenceListProps> = ({
   return (
     <div>
       {absences.sort(sortFunction).map((absence) => (
-        <AbsenceItem
-          key={absence.id}
-          absence={absence}
-          fetchConflict={fetchConflict} // Pass the correct prop name
-          onEmployeeClick={onEmployeeClick} // Pass the correct prop name
-        />
+        <div key={absence.id} onClick={() => onAbsenceClick(absence)} className="absence-item">
+          <p>{absence.employeeName}</p>
+          <p>Start Date: {absence.startDate}</p>
+          <p>End Date: {absence.endDate}</p>
+          <p>Type: {absence.absenceType}</p>
+          <p>Status: {absence.approved ? 'Approved' : 'Pending Approval'}</p>
+        </div>
       ))}
     </div>
   );

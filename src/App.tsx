@@ -1,7 +1,9 @@
-// src/App.tsx
+// App.tsx
 import React, { useState, useEffect } from 'react';
+import './index.css'; // Importing the CSS file
 import AbsenceControls from './components/AbsenceControls';
 import AbsenceList from './components/AbsenceList';
+import AbsenceItemDetails from './components/AbsenceItemDetails';
 
 interface Absence {
   id: number;
@@ -16,28 +18,38 @@ const App: React.FC = () => {
   const [absences, setAbsences] = useState<Absence[]>([]);
   const [sortedBy, setSortedBy] = useState<string | null>(null);
   const [sortedAsc, setSortedAsc] = useState<boolean>(true);
+  const [selectedAbsence, setSelectedAbsence] = useState<Absence | null>(null);
 
   useEffect(() => {
     const fetchAbsences = async () => {
-      const response = await fetch('https://front-end-kata.brighthr.workers.dev/api/absences');
-      const data = await response.json();
-      const transformedData = data.map((item: any) => ({
-        id: item.id,
-        startDate: item.startDate,
-        endDate: new Date(new Date(item.startDate).getTime() + item.days * 86400000).toISOString(),
-        employeeName: `${item.employee.firstName} ${item.employee.lastName}`,
-        approved: item.approved,
-        absenceType: item.absenceType,
-      }));
-      setAbsences(transformedData);
+      try {
+        const response = await fetch('https://front-end-kata.brighthr.workers.dev/api/absences');
+        const data = await response.json();
+        const transformedData = data.map((item: any) => ({
+          id: item.id,
+          startDate: item.startDate,
+          endDate: new Date(new Date(item.startDate).getTime() + item.days * 86400000).toISOString(),
+          employeeName: `${item.employee.firstName} ${item.employee.lastName}`,
+          approved: item.approved,
+          absenceType: item.absenceType,
+        }));
+        setAbsences(transformedData);
+      } catch (error) {
+        console.error('Error fetching absences:', error);
+      }
     };
     fetchAbsences();
   }, []);
 
   const fetchConflict = async (id: number): Promise<boolean> => {
-    const response = await fetch(`https://front-end-kata.brighthr.workers.dev/api/conflict/${id}`);
-    const data = await response.json();
-    return data.conflict;
+    try {
+      const response = await fetch(`https://front-end-kata.brighthr.workers.dev/api/conflict/${id}`);
+      const data = await response.json();
+      return data.conflict;
+    } catch (error) {
+      console.error(`Error fetching conflict for absence ID ${id}:`, error);
+      return false;
+    }
   };
 
   const handleSort = (field: string) => {
@@ -58,18 +70,39 @@ const App: React.FC = () => {
     setAbsences(employeeAbsences);
   };
 
+  const handleAbsenceClick = (absence: Absence) => {
+    setSelectedAbsence(absence);
+  };
+
+  const handleBackButtonClick = () => {
+    setSelectedAbsence(null);
+  };
+
   return (
     <div className="App">
       <h1>Absence Management</h1>
-      <AbsenceControls onSort={handleSort} />
-      <AbsenceList
-        absences={absences}
-        fetchConflict={fetchConflict}
-        onEmployeeClick={handleEmployeeClick}
-        sortedBy={sortedBy}
-        sortedAsc={sortedAsc}
-        sortFunction={sortFunction}
-      />
+      {selectedAbsence ? (
+        <>
+          <AbsenceItemDetails
+            absence={selectedAbsence}
+            fetchConflict={fetchConflict}
+          />
+          <button className="back-button" onClick={handleBackButtonClick}>Back</button>
+        </>
+      ) : (
+        <>
+          <AbsenceControls onSort={handleSort} />
+          <AbsenceList
+            absences={absences}
+            fetchConflict={fetchConflict}
+            onEmployeeClick={handleEmployeeClick}
+            onAbsenceClick={handleAbsenceClick}
+            sortedBy={sortedBy}
+            sortedAsc={sortedAsc}
+            sortFunction={sortFunction}
+          />
+        </>
+      )}
     </div>
   );
 };

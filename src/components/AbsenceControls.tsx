@@ -1,3 +1,4 @@
+// components/AbsenceControls.tsx
 import React from 'react';
 
 interface AbsenceControlsProps {
@@ -7,22 +8,11 @@ interface AbsenceControlsProps {
 const AbsenceControls: React.FC<AbsenceControlsProps> = ({ onSort }) => {
   return (
     <div className="absences-controls">
-      <SortButton label="Start Date" onClick={() => onSort('startDate')} />
-      <SortButton label="End Date" onClick={() => onSort('endDate')} />
-      <SortButton label="Absence Type" onClick={() => onSort('absenceType')} />
-      <SortButton label="Employee Name" onClick={() => onSort('employeeName')} />
+      <button onClick={() => onSort('startDate')}>Sort by Start Date</button>
+      <button onClick={() => onSort('endDate')}>Sort by End Date</button>
+      <button onClick={() => onSort('absenceType')}>Sort by Absence Type</button>
+      <button onClick={() => onSort('employeeName')}>Sort by Employee Name</button>
     </div>
-  );
-};
-
-interface SortButtonProps {
-  label: string;
-  onClick: () => void;
-}
-
-const SortButton: React.FC<SortButtonProps> = ({ label, onClick }) => {
-  return (
-    <button onClick={onClick}>Sort by {label}</button>
   );
 };
 
