@@ -22,7 +22,7 @@ interface SortButtonProps {
 
 const SortButton: React.FC<SortButtonProps> = ({ label, onClick }) => {
   return (
-    <button onClick={onClick}>Sort by {label}</button>
+    <button onClick={onClick}>Sort by {label}</button> 
   );
 };
 
