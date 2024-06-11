@@ -21,7 +21,15 @@ const App: React.FC = () => {
     const fetchAbsences = async () => {
       const response = await fetch('https://front-end-kata.brighthr.workers.dev/api/absences');
       const data = await response.json();
-      setAbsences(data);
+      const transformedData = data.map((item: any) => ({
+        id: item.id,
+        startDate: item.startDate,
+        endDate: new Date(new Date(item.startDate).getTime() + item.days * 86400000).toISOString(),
+        employeeName: `${item.employee.firstName} ${item.employee.lastName}`,
+        approved: item.approved,
+        absenceType: item.absenceType
+      }));
+      setAbsences(transformedData);
     };
     fetchAbsences();
   }, []);
@@ -39,8 +47,8 @@ const App: React.FC = () => {
 
   const sortFunction = (a: Absence, b: Absence): number => {
     if (sortedBy) {
-      if (a[sortedBy] < b[sortedBy]) return sortedAsc ? -1 : 1;
-      if (a[sortedBy] > b[sortedBy]) return sortedAsc ? 1 : -1;
+      if (a[sortedBy as keyof Absence] < b[sortedBy as keyof Absence]) return sortedAsc ? -1 : 1;
+      if (a[sortedBy as keyof Absence] > b[sortedBy as keyof Absence]) return sortedAsc ? 1 : -1;
     }
     return 0;
   };
@@ -58,9 +66,6 @@ const App: React.FC = () => {
         absences={absences.sort(sortFunction)}
         fetchConflict={fetchConflict}
         onEmployeeClick={handleEmployeeClick}
-        sortedBy={sortedBy}
-        sortedAsc={sortedAsc}
-        sortFunction={sortFunction}
       />
     </div>
   );
