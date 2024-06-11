@@ -26,5 +26,5 @@ test('renders AbsenceControls component with sorting buttons', () => {
   expect(handleSort).toHaveBeenCalledWith('startDate');
   expect(handleSort).toHaveBeenCalledWith('endDate');
   expect(handleSort).toHaveBeenCalledWith('absenceType');
-  expect(handleSort).toHaveBeenCalledWith('employeeName'); 
+  expect(handleSort).toHaveBeenCalledWith('employeeName');
 });
