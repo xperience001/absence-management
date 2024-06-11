@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Absence {
   id: number;
@@ -16,19 +16,18 @@ interface AbsenceItemProps {
 }
 
 const AbsenceItem: React.FC<AbsenceItemProps> = ({ absence, fetchConflict, onEmployeeClick }) => {
-  const [hasConflict, setHasConflict] = useState<boolean>(false);
+  const [hasConflict, setHasConflict] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkConflict = async () => {
-      const conflict = await fetchConflict(absence.id);
-      setHasConflict(conflict);
+    const getConflictStatus = async () => {
+      const conflictStatus = await fetchConflict(absence.id);
+      setHasConflict(conflictStatus);
     };
-
-    checkConflict();
+    getConflictStatus();
   }, [absence.id, fetchConflict]);
 
   return (
-    <div className={`absence-item ${hasConflict ? 'conflict' : ''}`}>
+    <div>
       <div onClick={() => onEmployeeClick(absence.employeeName)}>
         <h3>{absence.employeeName}</h3>
       </div>
@@ -36,7 +35,9 @@ const AbsenceItem: React.FC<AbsenceItemProps> = ({ absence, fetchConflict, onEmp
       <p>End Date: {absence.endDate}</p>
       <p>Type: {absence.absenceType}</p>
       <p>Status: {absence.approved ? 'Approved' : 'Pending Approval'}</p>
-      {hasConflict && <p style={{ color: 'red' }}>Conflict Detected</p>}
+      {hasConflict !== null && (
+        <p>{hasConflict ? 'Has Conflicts' : 'No Conflicts'}</p>
+      )}
     </div>
   );
 };

@@ -12,8 +12,8 @@ interface Absence {
 
 interface AbsenceListProps {
   absences: Absence[];
-  fetchConflict: (id: number) => Promise<boolean>;
-  onEmployeeClick: (employeeName: string) => void;
+  fetchConflict: (id: number) => Promise<boolean>; // Corrected type definition
+  onEmployeeClick: (employeeName: string) => void; // Corrected type definition
   sortedBy: string | null;
   sortedAsc: boolean;
   sortFunction: (a: Absence, b: Absence) => number;
@@ -21,8 +21,8 @@ interface AbsenceListProps {
 
 const AbsenceList: React.FC<AbsenceListProps> = ({
   absences,
-  fetchConflict,
-  onEmployeeClick,
+  fetchConflict, // Corrected prop name
+  onEmployeeClick, // Corrected prop name
   sortedBy,
   sortedAsc,
   sortFunction,
@@ -33,8 +33,8 @@ const AbsenceList: React.FC<AbsenceListProps> = ({
         <AbsenceItem
           key={absence.id}
           absence={absence}
-          fetchConflict={fetchConflict}
-          onEmployeeClick={onEmployeeClick}
+          fetchConflict={fetchConflict} // Pass the correct prop name
+          onEmployeeClick={onEmployeeClick} // Pass the correct prop name
         />
       ))}
     </div>

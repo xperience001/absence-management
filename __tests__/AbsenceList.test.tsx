@@ -23,12 +23,18 @@ test('renders AbsenceList component with absence items', () => {
   ];
   const fetchConflict = jest.fn(() => Promise.resolve(false));
   const onEmployeeClick = jest.fn();
+  const sortedBy = null; // Set sortedBy to null for this test
+  const sortedAsc = true; // Set sortedAsc to true for this test
+  const sortFunction = jest.fn(); // You can define a mock sort function for testing
 
   const { getByText } = render(
     <AbsenceList
       absences={absences}
       fetchConflict={fetchConflict}
       onEmployeeClick={onEmployeeClick}
+      sortedBy={sortedBy}
+      sortedAsc={sortedAsc}
+      sortFunction={sortFunction}
     />
   );
 

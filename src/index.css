@@ -1,0 +1,62 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .absence-item {
+    border: 1px solid #ced4da;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .absence-item h2 {
+    margin-top: 0;
+    color: #007bff;
+  }
+  
+  .absence-item p {
+    margin: 5px 0;
+  }
+  
+  .absence-item.approved {
+    background-color: #d4edda;
+  }
+  
+  .absence-item.pending-approval {
+    background-color: #f8d7da;
+  }
+  
+  .absence-item .status {
+    font-weight: bold;
+  }
+  
+  .absence-item .employee-name {
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .absence-item .absence-type {
+    font-style: italic;
+    color: #6c757d;
+  }
+  
