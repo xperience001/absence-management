@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';  // Make sure this import is present
+import '@testing-library/jest-dom';
 import AbsenceControls from '../src/components/AbsenceControls';
 
 test('renders AbsenceControls component with sorting buttons', () => {
