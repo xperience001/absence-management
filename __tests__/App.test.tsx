@@ -1,4 +1,3 @@
-// src/__tests__/App.test.tsx
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import App from '../src/App';

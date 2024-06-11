@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState, useEffect } from 'react';
 import AbsenceControls from './components/AbsenceControls';
 import AbsenceList from './components/AbsenceList';
@@ -27,7 +26,7 @@ const App: React.FC = () => {
         endDate: new Date(new Date(item.startDate).getTime() + item.days * 86400000).toISOString(),
         employeeName: `${item.employee.firstName} ${item.employee.lastName}`,
         approved: item.approved,
-        absenceType: item.absenceType
+        absenceType: item.absenceType,
       }));
       setAbsences(transformedData);
     };
@@ -63,9 +62,12 @@ const App: React.FC = () => {
       <h1>Absence Management</h1>
       <AbsenceControls onSort={handleSort} />
       <AbsenceList
-        absences={absences.sort(sortFunction)}
+        absences={absences}
         fetchConflict={fetchConflict}
         onEmployeeClick={handleEmployeeClick}
+        sortedBy={sortedBy}
+        sortedAsc={sortedAsc}
+        sortFunction={sortFunction}
       />
     </div>
   );

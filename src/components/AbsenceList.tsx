@@ -27,11 +27,9 @@ const AbsenceList: React.FC<AbsenceListProps> = ({
   sortedAsc,
   sortFunction,
 }) => {
-  const sortedAbsences = [...absences].sort(sortFunction);
-
   return (
-    <div className="absences-container">
-      {sortedAbsences.map((absence) => (
+    <div>
+      {absences.sort(sortFunction).map((absence) => (
         <AbsenceItem
           key={absence.id}
           absence={absence}
