@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import AbsenceControls from '../src/components/AbsenceControls';
+import AbsenceControls from '../components/AbsenceControls';
 
 describe('AbsenceControls', () => {
   it('renders correctly', () => {

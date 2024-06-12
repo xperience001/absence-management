@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
-import AbsenceItemDetails from '../src/components/AbsenceItemDetails';
+import AbsenceItemDetails from '../components/AbsenceItemDetails';
 
 describe('AbsenceItemDetails', () => {
   const absence = {

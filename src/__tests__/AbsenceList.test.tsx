@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import AbsenceList from '../src/components/AbsenceList';
+import AbsenceList from '../components/AbsenceList';
 
 describe('AbsenceList', () => {
   const absences = [

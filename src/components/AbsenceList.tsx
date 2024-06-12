@@ -1,5 +1,5 @@
-// components/AbsenceList.tsx
 import React from 'react';
+import AbsenceItem from './AbsenceItem';
 
 interface Absence {
   id: number;
@@ -32,13 +32,13 @@ const AbsenceList: React.FC<AbsenceListProps> = ({
   return (
     <div>
       {absences.sort(sortFunction).map((absence) => (
-        <div key={absence.id} onClick={() => onAbsenceClick(absence)} className="absence-item">
-          <p>{absence.employeeName}</p>
-          <p>Start Date: {absence.startDate}</p>
-          <p>End Date: {absence.endDate}</p>
-          <p>Type: {absence.absenceType}</p>
-          <p>Status: {absence.approved ? 'Approved' : 'Pending Approval'}</p>
-        </div>
+        <AbsenceItem
+          key={absence.id}
+          absence={absence}
+          fetchConflict={fetchConflict}
+          onEmployeeClick={onEmployeeClick}
+          onAbsenceClick={onAbsenceClick}
+        />
       ))}
     </div>
   );

@@ -1,9 +1,9 @@
-// App.tsx
 import React, { useState, useEffect } from 'react';
-import './index.css'; // Importing the CSS file
+import './index.css';
 import AbsenceControls from './components/AbsenceControls';
 import AbsenceList from './components/AbsenceList';
 import AbsenceItemDetails from './components/AbsenceItemDetails';
+import ConflictChecker from './components/ConflictChecker'; // Update import statement
 
 interface Absence {
   id: number;
@@ -19,6 +19,7 @@ const App: React.FC = () => {
   const [sortedBy, setSortedBy] = useState<string | null>(null);
   const [sortedAsc, setSortedAsc] = useState<boolean>(true);
   const [selectedAbsence, setSelectedAbsence] = useState<Absence | null>(null);
+  const [filteredEmployeeName, setFilteredEmployeeName] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAbsences = async () => {
@@ -66,8 +67,7 @@ const App: React.FC = () => {
   };
 
   const handleEmployeeClick = (employeeName: string) => {
-    const employeeAbsences = absences.filter(absence => absence.employeeName === employeeName);
-    setAbsences(employeeAbsences);
+    setFilteredEmployeeName(employeeName);
   };
 
   const handleAbsenceClick = (absence: Absence) => {
@@ -76,7 +76,12 @@ const App: React.FC = () => {
 
   const handleBackButtonClick = () => {
     setSelectedAbsence(null);
+    setFilteredEmployeeName(null);
   };
+
+  const filteredAbsences = filteredEmployeeName
+    ? absences.filter(absence => absence.employeeName === filteredEmployeeName)
+    : absences;
 
   return (
     <div className="App">
@@ -92,8 +97,9 @@ const App: React.FC = () => {
       ) : (
         <>
           <AbsenceControls onSort={handleSort} />
+          <ConflictChecker absences={filteredAbsences} />
           <AbsenceList
-            absences={absences}
+            absences={filteredAbsences}
             fetchConflict={fetchConflict}
             onEmployeeClick={handleEmployeeClick}
             onAbsenceClick={handleAbsenceClick}
@@ -101,6 +107,9 @@ const App: React.FC = () => {
             sortedAsc={sortedAsc}
             sortFunction={sortFunction}
           />
+          {filteredEmployeeName && (
+            <button className="back-button" onClick={() => setFilteredEmployeeName(null)}>Show All Absences</button>
+          )}
         </>
       )}
     </div>

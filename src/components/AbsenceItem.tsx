@@ -12,11 +12,12 @@ interface Absence {
 interface AbsenceItemProps {
   absence: Absence;
   fetchConflict: (id: number) => Promise<boolean>;
-  onEmployeeClick: (employeeName: string) => void;
+  onEmployeeClick: (name: string) => void;
+  onAbsenceClick: (absence: Absence) => void;
 }
 
-const AbsenceItem: React.FC<AbsenceItemProps> = ({ absence, fetchConflict, onEmployeeClick }) => {
-  const [hasConflict, setHasConflict] = useState<boolean | null>(null);
+const AbsenceItem: React.FC<AbsenceItemProps> = ({ absence, fetchConflict, onEmployeeClick, onAbsenceClick }) => {
+  const [hasConflict, setHasConflict] = useState<boolean>(false);
 
   useEffect(() => {
     const getConflictStatus = async () => {
@@ -27,17 +28,32 @@ const AbsenceItem: React.FC<AbsenceItemProps> = ({ absence, fetchConflict, onEmp
   }, [absence.id, fetchConflict]);
 
   return (
-    <div>
-      <div onClick={() => onEmployeeClick(absence.employeeName)}>
-        <h3>{absence.employeeName}</h3>
+    <div style={{ display: 'flex', justifyContent:'space-between', border: '1px solid #ccc', borderRadius: '5px', padding: '15px', marginBottom: '20px', cursor: 'pointer', transition: 'all 0.3s' }}>
+      <div>
+      <div style={{ fontWeight: 'bold', fontSize: '25px', marginBottom: '0.5rem', fontFamily: 'Arial, sans-serif' }} onClick={() => onEmployeeClick(absence.employeeName)}>{absence.employeeName}</div>
+      {/* <div>Start Date: {absence.startDate}</div>
+      <div>End Date: {absence.endDate}</div> */}
+      <div>Type: {absence.absenceType}</div>
+      <div>Status: {absence.approved ? 'Approved' : 'Pending'}</div>
       </div>
-      <p>Start Date: {absence.startDate}</p>
-      <p>End Date: {absence.endDate}</p>
-      <p>Type: {absence.absenceType}</p>
-      <p>Status: {absence.approved ? 'Approved' : 'Pending Approval'}</p>
-      {hasConflict !== null && (
-        <p>{hasConflict ? 'Has Conflicts' : 'No Conflicts'}</p>
-      )}
+      <div>
+      <button
+  onClick={() => onAbsenceClick(absence)}
+  style={{
+    marginTop: '10px',
+    padding: '5px 10px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    cursor: 'pointer',
+    borderRadius: '4px',
+    transition: 'background-color 0.3s',
+  }}
+>
+  View Details
+</button>
+      </div>
+
     </div>
   );
 };

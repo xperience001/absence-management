@@ -1,4 +1,3 @@
-// components/AbsenceControls.tsx
 import React from 'react';
 
 interface AbsenceControlsProps {

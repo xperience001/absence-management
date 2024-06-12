@@ -1,4 +1,3 @@
-// components/AbsenceItemDetails.tsx
 import React, { useState, useEffect } from 'react';
 
 interface Absence {
@@ -35,9 +34,6 @@ const AbsenceItemDetails: React.FC<AbsenceItemDetailsProps> = ({ absence, fetchC
         <p>End Date: {absence.endDate}</p>
         <p>Type: {absence.absenceType}</p>
         <p>Status: {absence.approved ? 'Approved' : 'Pending Approval'}</p>
-        {hasConflict !== null && (
-          <p>{hasConflict ? 'Has Conflicts' : 'No Conflicts'}</p>
-        )}
       </div>
     </div>
   );
