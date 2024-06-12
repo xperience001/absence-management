@@ -3,7 +3,7 @@ import './index.css';
 import AbsenceControls from './components/AbsenceControls';
 import AbsenceList from './components/AbsenceList';
 import AbsenceItemDetails from './components/AbsenceItemDetails';
-import ConflictChecker from './components/ConflictChecker'; // Update import statement
+import ConflictChecker from './components/ConflictChecker';
 
 interface Absence {
   id: number;
